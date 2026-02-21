@@ -1,44 +1,55 @@
-# ktorDB
+# Ktor REST API
 
-This project was created using the [Ktor Project Generator](https://start.ktor.io).
+REST API built with **Kotlin** and **Ktor**, implementing JWT authentication, role-based authorization, PostgreSQL integration.
 
-Here are some useful links to get you started:
+---
 
-- [Ktor Documentation](https://ktor.io/docs/home.html)
-- [Ktor GitHub page](https://github.com/ktorio/ktor)
-- The [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). You'll need to [request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) to join.
+## Overview
 
-## Features
+This project is a backend service developed with Ktor. It includes secure authentication, database integration, and is structured for development.
 
-Here's a list of features included in this project:
+---
 
-| Name                                                                   | Description                                                                        |
-| ------------------------------------------------------------------------|------------------------------------------------------------------------------------ |
-| [Routing](https://start.ktor.io/p/routing)                             | Provides a structured routing DSL                                                  |
-| [Status Pages](https://start.ktor.io/p/status-pages)                   | Provides exception handling for routes                                             |
-| [kotlinx.serialization](https://start.ktor.io/p/kotlinx-serialization) | Handles JSON serialization using kotlinx.serialization library                     |
-| [Content Negotiation](https://start.ktor.io/p/content-negotiation)     | Provides automatic content conversion according to Content-Type and Accept headers |
-| [Postgres](https://start.ktor.io/p/postgres)                           | Adds Postgres database to your application                                         |
-| [Exposed](https://start.ktor.io/p/exposed)                             | Adds Exposed database to your application                                          |
+## Tech Stack
 
-## Building & Running
+- **Kotlin**
+- **Ktor**
+- **PostgreSQL**
+- **Exposed ORM**
+- **HikariCP**
+- **JWT Authentication**
+- **Koin (Dependency Injection)**
+- **Gradle (KTS)**
 
-To build or run the project, use one of the following tasks:
+---
 
-| Task                                    | Description                                                          |
-| -----------------------------------------|---------------------------------------------------------------------- |
-| `./gradlew test`                        | Run the tests                                                        |
-| `./gradlew build`                       | Build everything                                                     |
-| `./gradlew buildFatJar`                 | Build an executable JAR of the server with all dependencies included |
-| `./gradlew buildImage`                  | Build the docker image to use with the fat JAR                       |
-| `./gradlew publishImageToLocalRegistry` | Publish the docker image locally                                     |
-| `./gradlew run`                         | Run the server                                                       |
-| `./gradlew runDocker`                   | Run using the local docker image                                     |
+##  Features
 
-If the server starts successfully, you'll see the following output:
+- User registration & login
+- JWT-based authentication
+- Role-based authorization
+- Products & Categories management
+- Secure password hashing (BCrypt)
+- Environment-based configuration (DEV / PROD)
+- Fat JAR build for deployment
 
-```
-2024-12-04 14:32:45.584 [main] INFO  Application - Application started in 0.303 seconds.
-2024-12-04 14:32:45.682 [main] INFO  Application - Responding at http://0.0.0.0:8080
-```
 
+---
+
+##  Project Structure
+
+src/main/kotlin
+
+│
+
+├── config/ # Database & environment configuration
+
+├── plugins/ # Ktor configuration plugins
+
+├── routes/ # API endpoints
+
+├── tables/ # Database table definitions
+
+├── models/ # Data models
+
+└── Application.kt # Entry point
