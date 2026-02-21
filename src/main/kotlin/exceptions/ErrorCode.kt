@@ -1,0 +1,47 @@
+package com.ktor.exceptions
+
+enum class ErrorCode(val code: String) {
+
+    // erores generales (1000-1999
+
+    INTERNAL_SERVER_ERROR("ERR_1000"),
+    VALIDATION_ERROR("ERR_1001"),
+
+    // errores de recursos no encontrados (2000-2999)
+    USER_NOT_FOUND("ERR_2001"),
+    PRODUCT_NOT_FOUND("ERR_2002"),
+    CATEGORY_NOT_FOUND("ERR_2003"),
+    RESOURCE_NOT_FOUND("ERR_2999"),
+
+    // errores de duplicados/conflictos (3000-3999)
+
+    USER_ALREADY_EXISTS("ERR_3001"),
+    PRODUCT_ALREADY_EXISTS("ERR_3002"),
+    CATEGORY_ALREADY_EXISTS("ERR_3003"),
+    EMAIL_ALREADY_EXISTS("ERR_3004"),
+    RESOURCE_ALREADY_EXISTS("ERR_3999"),
+
+    // erores de validacion de datos (4000-4999)
+    INVALID_ID("ERR_4001"),
+    INVALID_EMAIL("ERR_4002"),
+    INVALID_NAME("ERR_4003"),
+    INVALID_PRICE("ERR_4004"),
+    INVALID_STOCK("ERR_4005"),
+    INVALID_DESCRIPTION("ERR_4006"),
+    FIELD_REQUIRED("ERR_4007"),
+    FIELD_TOO_LONG("ERR_4008"),
+    FIELD_TOO_SHORT("ERR_4009"),
+    INVALID_CREDENTIALS("ERR_4011"),
+
+    // errores de base de datos (5000-5999)
+    DATABASE_ERROR("ERR_5000"),
+    DUPLICATE_KEY("ERR_5001"),
+    CONSTRAINT_VIOLATION("ERR_5002"),
+    FOREIGN_KEY_VIOLATION("ERR_5003"),
+
+    // errores de autenticacion/autorizacion (6000-6999)
+    UNAUTHORIZED("ERR_6001"),
+    FORBIDDEN("ERR_6002"),
+    INVALID_TOKEN("ERR_6003"),
+    TOKEN_EXPIRED("ERR_6004")
+}
