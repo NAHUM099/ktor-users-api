@@ -1,7 +1,7 @@
 # ========================
 # Stage 1: Build
 # ========================
-FROM gradle:7.6.6-jdk17-ubi AS builder
+FROM gradle:8.14-jdk17-ubi AS builder
 
 # Directorio de trabajo en el contenedor
 WORKDIR /home/gradle/project
