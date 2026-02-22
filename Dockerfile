@@ -1,7 +1,7 @@
 # ========================
 # Stage 1: Build
 # ========================
-FROM eclipse-temurin:17-jdk-focal AS builder
+FROM gradle:8.3.2-jdk17 AS builder
 
 # Directorio de trabajo en el contenedor
 WORKDIR /home/gradle/project
