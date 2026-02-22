@@ -28,7 +28,7 @@ FROM eclipse-temurin:17-jdk-focal
 WORKDIR /app
 
 # Copiar JAR desde el stage de build
-COPY --from=builder /home/gradle/project/build/libs/*.jar app.jar
+COPY --from=builder /home/gradle/project/build/libs/*-all.jar app.jar
 
 # Puerto expuesto
 EXPOSE 8080
