@@ -22,7 +22,7 @@ RUN gradle clean build -x test -x check --no-daemon
 # ========================
 # Stage 2: Runtime
 # ========================
-FROM gradle:9.6.1-jdk17 AS build
+FROM eclipse-temurin:17-jdk-focal
 
 # Directorio de trabajo en el contenedor
 WORKDIR /app
