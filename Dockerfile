@@ -16,9 +16,9 @@ RUN gradle build -x test -x check --no-daemon || true
 # Copiar el resto del proyecto
 COPY . .
 
-# Construir el JAR de producción
-RUN ./gradlew clean shadowJar -x test -x check --no-daemon
-
+# # Construir el JAR de producción
+# RUN ./gradlew clean shadowJar -x test -x check --no-daemon
+RUN ls -l build/libs/
 # ========================
 # Stage 2: Runtime
 # ========================
