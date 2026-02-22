@@ -22,7 +22,7 @@ RUN gradle clean build -x test -x check --no-daemon
 # ========================
 # Stage 2: Runtime
 # ========================
-FROM gradle:jdk17 AS build
+FROM gradle:9.6.1-jdk17 AS build
 
 # Directorio de trabajo en el contenedor
 WORKDIR /app
