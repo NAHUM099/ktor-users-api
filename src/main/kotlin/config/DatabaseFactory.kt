@@ -89,12 +89,15 @@
 //        }
 //    }
 //}
+//
+//
 
 
 package config
 
 import com.ktor.tables.CategoriesTable
 import com.ktor.tables.ProductTable
+import com.ktor.tables.UsersTable
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.github.cdimascio.dotenv.dotenv
@@ -106,34 +109,21 @@ import javax.sql.DataSource
 
 object DatabaseFactory {
 
-    // Función para saber si estamos en desarrollo
-    private fun isDevelopment(): Boolean {
-        return System.getenv("ENVIRONMENT") != "production"
+    // Intentamos cargar .env solo si existe
+    private val env = try { dotenv() } catch (e: Exception) { null }
+
+    // Saber si estamos en producción
+    private fun isProduction(): Boolean = System.getenv("ENVIRONMENT") == "production"
+
+    // Función helper para leer variables de entorno
+    private fun getEnv(name: String): String {
+        return System.getenv(name) ?: env?.get(name)
+        ?: throw IllegalStateException("La variable $name no está configurada ni en .env ni en entorno")
     }
 
-    private fun getDbUrl(): String {
-        return if (isDevelopment()) {
-            dotenv()["DB_URL"] ?: throw IllegalStateException("DB_URL no está configurado en .env")
-        } else {
-            System.getenv("DB_URL") ?: throw IllegalStateException("DB_URL no está configurado en producción")
-        }
-    }
-
-    private fun getDbUser(): String {
-        return if (isDevelopment()) {
-            dotenv()["DB_USER"] ?: throw IllegalStateException("DB_USER no está configurado en .env")
-        } else {
-            System.getenv("DB_USER") ?: throw IllegalStateException("DB_USER no está configurado en producción")
-        }
-    }
-
-    private fun getDbPassword(): String {
-        return if (isDevelopment()) {
-            dotenv()["DB_PASSWORD"] ?: throw IllegalStateException("DB_PASSWORD no está configurado en .env")
-        } else {
-            System.getenv("DB_PASSWORD") ?: throw IllegalStateException("DB_PASSWORD no está configurado en producción")
-        }
-    }
+    private fun getDbUrl(): String = getEnv("DB_URL")
+    private fun getDbUser(): String = getEnv("DB_USER")
+    private fun getDbPassword(): String = getEnv("DB_PASSWORD")
 
     fun create(): DataSource {
         val config = HikariConfig().apply {
