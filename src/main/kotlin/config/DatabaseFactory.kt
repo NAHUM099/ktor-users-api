@@ -89,15 +89,12 @@
 //        }
 //    }
 //}
-//
-//
 
 
 package config
 
 import com.ktor.tables.CategoriesTable
 import com.ktor.tables.ProductTable
-import com.ktor.tables.UsersTable
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.github.cdimascio.dotenv.dotenv
@@ -109,27 +106,41 @@ import javax.sql.DataSource
 
 object DatabaseFactory {
 
-    // Intentamos cargar .env solo si existe
-    private val env = try { dotenv() } catch (e: Exception) { null }
-
-    // Saber si estamos en producción
-    private fun isProduction(): Boolean = System.getenv("ENVIRONMENT") == "production"
-
-    // Función helper para leer variables de entorno
-    private fun getEnv(name: String): String {
-        return System.getenv(name) ?: env?.get(name)
-        ?: throw IllegalStateException("La variable $name no está configurada ni en .env ni en entorno")
+    // Decide si estamos en desarrollo
+    private fun isDevelopment(): Boolean {
+        return System.getenv("ENVIRONMENT") != "production"
     }
 
-    private fun getDbUrl(): String = getEnv("DB_URL")
-    private fun getDbUser(): String = getEnv("DB_USER")
-    private fun getDbPassword(): String = getEnv("DB_PASSWORD")
+    // Cargar dotenv solo si estamos en desarrollo
+    private val dotenv = if (isDevelopment()) dotenv() else null
+
+    // Obtener URL, usuario y contraseña según el entorno
+    private val dbUrl: String
+        get() = if (isDevelopment()) {
+            dotenv?.get("DB_URL") ?: throw IllegalStateException("DB_URL no está en .env")
+        } else {
+            System.getenv("DB_URL") ?: throw IllegalStateException("DB_URL no está en variables de entorno")
+        }
+
+    private val dbUser: String
+        get() = if (isDevelopment()) {
+            dotenv?.get("DB_USER") ?: throw IllegalStateException("DB_USER no está en .env")
+        } else {
+            System.getenv("DB_USER") ?: throw IllegalStateException("DB_USER no está en variables de entorno")
+        }
+
+    private val dbPassword: String
+        get() = if (isDevelopment()) {
+            dotenv?.get("DB_PASSWORD") ?: throw IllegalStateException("DB_PASSWORD no está en .env")
+        } else {
+            System.getenv("DB_PASSWORD") ?: throw IllegalStateException("DB_PASSWORD no está en variables de entorno")
+        }
 
     fun create(): DataSource {
         val config = HikariConfig().apply {
-            jdbcUrl = getDbUrl()
-            username = getDbUser()
-            password = getDbPassword()
+            jdbcUrl = dbUrl
+            username = dbUser
+            password = dbPassword
             driverClassName = "org.postgresql.Driver"
             maximumPoolSize = 5
         }
@@ -143,9 +154,11 @@ object DatabaseFactory {
         // Crear tablas si no existen
         transaction {
             SchemaUtils.create(UsersTable)
+            println("Tabla Users creada/verificada")
             SchemaUtils.create(ProductTable)
+            println("Tabla Products creada/verificada")
             SchemaUtils.create(CategoriesTable)
-            println("Tablas creadas/verificadas")
+            println("Tabla Categories creada/verificada")
         }
     }
 }
