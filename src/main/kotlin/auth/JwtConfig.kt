@@ -8,17 +8,19 @@ import java.util.*
 
 object JwtConfig {
 
-    private val dotenv = dotenv()
+    private val dotenv =  dotenv {
+        ignoreIfMissing = true
+    }
 
     // Configuración del JWT
-    private val secret = dotenv["JWT_SECRET"]
-        ?: System.getenv("JWT_SECRET")
+    private val secret = System.getenv("JWT_SECRET")
+        ?: dotenv["JWT_SECRET"]
         ?:throw error("JWT_SECRET no esta configurado")
-    private val issuer = dotenv["JWT_ISSUER"]
-        ?: System.getenv("JWT_ISSUER")
+    private val issuer = System.getenv("JWT_ISSUER")
+        ?: dotenv["JWT_ISSUER"]
         ?:throw error("JWT_ISSUER no esta configurado")
-    private val audience = dotenv["JWT_AUDIENCE"]
-        ?: System.getenv("JWT_AUDIENCE")
+    private val audience = System.getenv("JWT_AUDIENCE")
+        ?: dotenv["JWT_AUDIENCE"]
         ?:throw error("JWT_AUDIENCE no esta configurado")
     private val validityInMs = 36_000_00 * 10 // 10 horas en milisegundos
 

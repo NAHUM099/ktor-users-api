@@ -17,7 +17,7 @@ object DatabaseFactory {
     private val dotenv =  dotenv {
         ignoreIfMissing = true
     }
-    
+
     private val dbUrl: String =
         System.getenv("DB_URL")
             ?: dotenv["DB_URL"]
