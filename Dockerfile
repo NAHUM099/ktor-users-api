@@ -17,8 +17,8 @@ RUN gradle build -x test -x check --no-daemon || true
 COPY . .
 
 # # Construir el JAR de producción
-# RUN ./gradlew clean shadowJar -x test -x check --no-daemon
-RUN ls -l build/libs/
+RUN ./gradlew clean shadowJar -x test -x check --no-daemon
+
 # ========================
 # Stage 2: Runtime
 # ========================
@@ -28,7 +28,7 @@ FROM eclipse-temurin:17-jdk-focal AS runtime
 WORKDIR /app
 
 # Copiar JAR desde el stage de build
-COPY  --from=builder /home/gradle/project/build/libs/ktorDB-all.jar app.jar
+COPY  --from=builder /home/gradle/project/build/libs/app.jar app.jar
 
 # Puerto expuesto
 EXPOSE 8080
