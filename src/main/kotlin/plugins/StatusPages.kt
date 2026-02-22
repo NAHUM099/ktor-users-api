@@ -131,7 +131,9 @@ private fun logError(call: ApplicationCall, cause: Throwable) {
 }
 
 
-private val dotenv = dotenv()
+private val dotenv =  dotenv {
+    ignoreIfMissing = true
+}
 private fun isDevelopment(): Boolean {
 
     val environment = dotenv["ENVIRONMENT"]
