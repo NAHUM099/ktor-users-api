@@ -11,7 +11,7 @@ fun Route.requireRole(requiredRole: String, build: Route.() -> Unit) {
 
     authenticate("auth-jwt") {
 
-        intercept(ApplicationCallPipeline.Plugins) {
+        intercept(ApplicationCallPipeline.Call) {
 
             val principal = call.principal<JWTPrincipal>()
             val role = principal

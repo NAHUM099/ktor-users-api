@@ -21,7 +21,7 @@ fun Application.configureAuthentication() {
 
             //validar credenciales
             validate { credential ->
-                val userId = credential.payload.getClaim("userId").asInt()
+                val userId = credential.payload.getClaim("userId").asLong()
                 val email = credential.payload.getClaim("email").asString()
                 val role = credential.payload.getClaim("role").asString()
 
