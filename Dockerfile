@@ -1,27 +1,37 @@
-# Usamos la imagen oficial de Gradle + JDK 17
-FROM gradle:8.3.1-jdk17 AS build
+# ========================
+# Stage 1: Build
+# ========================
+FROM gradle:8.3.1-jdk17 AS builder
 
-# Directorio de trabajo en contenedor
-WORKDIR /app
+# Directorio de trabajo en el contenedor
+WORKDIR /home/gradle/project
 
-# Copiamos los archivos necesarios para construir la app
+# Copiar archivos de Gradle y descargar dependencias
 COPY build.gradle.kts settings.gradle.kts gradle.properties ./
 COPY gradle ./gradle
-COPY src ./src
 
-# Construimos la app, sin tests
-RUN gradle clean build -x test -x check --no-daemon -Pproduction
+# Pre-cache de dependencias
+RUN gradle build -x test -x check --no-daemon || true
 
-# Stage final
-FROM openjdk:17-jdk-slim
+# Copiar el resto del proyecto
+COPY . .
 
+# Construir el JAR de producción
+RUN gradle clean build -x test -x check --no-daemon
+
+# ========================
+# Stage 2: Runtime
+# ========================
+FROM openjdk:17.0.8-jdk-slim
+
+# Directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copiamos el jar de la etapa de build
-COPY --from=build /app/build/libs/*.jar app.jar
+# Copiar JAR desde el stage de build
+COPY --from=builder /home/gradle/project/build/libs/*.jar app.jar
 
 # Puerto expuesto
 EXPOSE 8080
 
-# Comando para correr la app
-CMD ["java", "-jar", "app.jar"]
+# Comando para ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "app.jar"]
