@@ -22,7 +22,7 @@ RUN gradle clean build -x test -x check --no-daemon
 # ========================
 # Stage 2: Runtime
 # ========================
-FROM openjdk:17.0.8-jdk-slim
+FROM gradle:jdk17 AS build
 
 # Directorio de trabajo en el contenedor
 WORKDIR /app
