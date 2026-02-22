@@ -1,7 +1,7 @@
 # ========================
 # Stage 1: Build
 # ========================
-FROM gradle:8.3.1-jdk17 AS builder
+FROM eclipse-temurin:17-jdk-focal AS builder
 
 # Directorio de trabajo en el contenedor
 WORKDIR /home/gradle/project
@@ -22,7 +22,7 @@ RUN gradle clean build -x test -x check --no-daemon
 # ========================
 # Stage 2: Runtime
 # ========================
-FROM eclipse-temurin:17-jdk-focal
+FROM eclipse-temurin:17-jdk-focal AS builder
 
 # Directorio de trabajo en el contenedor
 WORKDIR /app
